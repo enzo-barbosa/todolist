@@ -4,7 +4,7 @@ Projeto pessoal para praticar Spring Boot, onde estou construindo uma aplicaçã
 
 ## 🛠️ Tecnologias Previstas  
 - **Backend**: Java 17, Spring Boot 3.x, Spring Data JPA  
-- **Frontend**: Thymeleaf (ou React futuramente)  
+- **Frontend**: HTML5 e CSS3  
 - **Banco de Dados**: H2 (dev) / PostgreSQL (prod)  
 
 ## 🚧 Status Atual  
