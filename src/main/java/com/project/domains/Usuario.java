@@ -64,6 +64,8 @@ public class Usuario {
 
     @Override
     public boolean equals(Object o) {
+        // para evitar NullPointerException(tentando acessar um metodo, campo ou propriedade de algo que não existe na memória)
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
         return Objects.equals(id, usuario.id) && Objects.equals(email, usuario.email);
