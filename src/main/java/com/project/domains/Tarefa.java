@@ -6,7 +6,7 @@ import com.project.domains.enums.StatusTarefa;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Terefa {
+public class Tarefa {
     private Long id;
     private String titulo;
     private String descricao;
@@ -14,10 +14,10 @@ public class Terefa {
     private Prioridade prioridade;
     private StatusTarefa status;
 
-    public Terefa() {
+    public Tarefa() {
     }
 
-    public Terefa(Long id, String titulo, String descricao, LocalDateTime dataCriacao, Prioridade prioridade, StatusTarefa status) {
+    public Tarefa(Long id, String titulo, String descricao, LocalDateTime dataCriacao, Prioridade prioridade, StatusTarefa status) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
@@ -77,8 +77,8 @@ public class Terefa {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Terefa terefa = (Terefa) o;
-        return Objects.equals(id, terefa.id) && Objects.equals(dataCriacao, terefa.dataCriacao);
+        Tarefa tarefa = (Tarefa) o;
+        return Objects.equals(id, tarefa.id) && Objects.equals(dataCriacao, tarefa.dataCriacao);
     }
 
     @Override
