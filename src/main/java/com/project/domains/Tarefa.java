@@ -2,12 +2,20 @@ package com.project.domains;
 
 import com.project.domains.enums.Prioridade;
 import com.project.domains.enums.StatusTarefa;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
+@Table(name = "tarefa")
 public class Tarefa {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_tarefa")
     private Long id;
+
+    
     private String titulo;
     private String descricao;
     private LocalDateTime dataCriacao;
