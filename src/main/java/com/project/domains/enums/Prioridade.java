@@ -1,5 +1,8 @@
 package com.project.domains.enums;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public enum Prioridade {
     BAIXA(1, "BAIXA"),
     MEDIA(2, "MEDIA"),
@@ -28,7 +31,9 @@ public enum Prioridade {
                 return x;
             }
         }
-        throw new IllegalArgumentException("Prioridade Inválida:" + id +
-                ". Valores aceitos: 1 (BAIXA), 2 (MÉDIA), 3 (ALTA)");
+        throw new IllegalArgumentException("Prioridade inválida:" + id +
+                ". Valores aceitos: " + Arrays.stream(values())
+                .map(v -> v.id + " (" + v.descricao + ")")
+                .collect(Collectors.joining(", ")));
     }
 }
