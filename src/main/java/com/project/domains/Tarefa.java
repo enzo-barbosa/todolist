@@ -28,11 +28,11 @@ public class Tarefa {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataCriacao;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @JoinColumn(name = "idprioridade")
     private Prioridade prioridade;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @JoinColumn(name = "idstatus")
     private StatusTarefa status;
 
