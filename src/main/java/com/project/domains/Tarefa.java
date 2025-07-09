@@ -6,6 +6,7 @@ import com.project.domains.enums.StatusTarefa;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
@@ -25,15 +26,16 @@ public class Tarefa {
     @NotBlank @NotNull
     private String descricao;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime dataCriacao;
 
     @Enumerated(EnumType.STRING)
-    @JoinColumn(name = "idprioridade")
+    @Column(name = "prioridade")
     private Prioridade prioridade;
 
     @Enumerated(EnumType.STRING)
-    @JoinColumn(name = "idstatus")
+    @Column(name = "status")
     private StatusTarefa status;
 
     public Tarefa() {
