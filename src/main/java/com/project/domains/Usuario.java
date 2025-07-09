@@ -24,7 +24,7 @@ public class Usuario {
     @NotBlank @NotNull
     private String senha;
 
-
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tarefa> tarefas = new ArrayList<>();
 
     public Usuario() {
