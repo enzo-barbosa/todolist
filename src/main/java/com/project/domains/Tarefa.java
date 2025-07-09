@@ -38,6 +38,10 @@ public class Tarefa {
     @Column(name = "status")
     private StatusTarefa status;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     public Tarefa() {
         this.status = StatusTarefa.PENDENTE;
     }
