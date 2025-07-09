@@ -1,8 +1,12 @@
 package com.project.domains;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.domains.enums.Prioridade;
 import com.project.domains.enums.StatusTarefa;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -15,14 +19,25 @@ public class Tarefa {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_tarefa")
     private Long id;
 
-    
+    @NotBlank @NotNull
     private String titulo;
+
+    @NotBlank @NotNull
     private String descricao;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataCriacao;
+
+    @Enumerated(EnumType.ORDINAL)
+    @JoinColumn(name = "idprioridade")
     private Prioridade prioridade;
+
+    @Enumerated(EnumType.ORDINAL)
+    @JoinColumn(name = "idstatus")
     private StatusTarefa status;
 
     public Tarefa() {
+        this.status = StatusTarefa.PENDENTE;
     }
 
     public Tarefa(Long id, String titulo, String descricao, LocalDateTime dataCriacao, Prioridade prioridade, StatusTarefa status) {
