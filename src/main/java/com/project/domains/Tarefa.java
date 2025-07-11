@@ -109,6 +109,9 @@ public class Tarefa {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+        if (usuario != null && !usuario.getTarefas().contains(this)) {
+            usuario.getTarefas().add(this); // Atualiza o lado inverso
+        }
     }
 
     @Override
