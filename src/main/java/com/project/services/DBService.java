@@ -6,6 +6,7 @@ import com.project.domains.enums.Prioridade;
 import com.project.domains.enums.StatusTarefa;
 import com.project.repositories.TarefaRepository;
 import com.project.repositories.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class DBService {
     @Autowired
     private TarefaRepository tarefaRepository;
 
+    @Transactional
     public void initDB() {
         // 1. Criar e salvar usuários primeiro (para gerar IDs)
         Usuario usuario01 = new Usuario(
