@@ -837,3 +837,15 @@
 2025-07-14T21:01:11.352-03:00  INFO 10108 --- [todolist] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
 2025-07-14T21:01:11.387-03:00  INFO 10108 --- [todolist] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
 2025-07-14T21:01:11.398-03:00  INFO 10108 --- [todolist] [restartedMain] c.project.todolist.TodolistApplication   : Started TodolistApplication in 5.31 seconds (process running for 5.762)
+2025-07-14T21:48:40.085-03:00  INFO 10108 --- [todolist] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-14T21:48:40.096-03:00  INFO 10108 --- [todolist] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-07-14T21:48:40.100-03:00  INFO 10108 --- [todolist] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-14T21:48:40.102-03:00 DEBUG 10108 --- [todolist] [SpringApplicationShutdownHook] org.hibernate.SQL                        : drop table if exists tarefa cascade 
+2025-07-14T21:48:40.105-03:00 DEBUG 10108 --- [todolist] [SpringApplicationShutdownHook] org.hibernate.SQL                        : drop table if exists usuario cascade 
+2025-07-14T21:48:40.108-03:00 DEBUG 10108 --- [todolist] [SpringApplicationShutdownHook] org.hibernate.SQL                        : drop sequence if exists seq_tarefa
+2025-07-14T21:48:40.110-03:00 DEBUG 10108 --- [todolist] [SpringApplicationShutdownHook] org.hibernate.SQL                        : drop sequence if exists seq_usuario
+2025-07-14T21:48:40.112-03:00 TRACE 10108 --- [todolist] [SpringApplicationShutdownHook] o.h.type.spi.TypeConfiguration$Scope     : Handling #sessionFactoryClosed from [org.hibernate.internal.SessionFactoryImpl@69b27d29] for TypeConfiguration
+2025-07-14T21:48:40.112-03:00 DEBUG 10108 --- [todolist] [SpringApplicationShutdownHook] o.h.type.spi.TypeConfiguration$Scope     : Un-scoping TypeConfiguration [org.hibernate.type.spi.TypeConfiguration$Scope@3f8c1cbc] from SessionFactory [org.hibernate.internal.SessionFactoryImpl@69b27d29]
+2025-07-14T21:48:40.119-03:00  WARN 10108 --- [todolist] [SpringApplicationShutdownHook] o.s.b.f.support.DisposableBeanAdapter    : Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-232]
+2025-07-14T21:48:40.121-03:00  INFO 10108 --- [todolist] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-07-14T21:48:40.125-03:00  INFO 10108 --- [todolist] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
