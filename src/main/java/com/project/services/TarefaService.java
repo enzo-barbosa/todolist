@@ -28,4 +28,9 @@ public class TarefaService {
         Optional<Tarefa> obj = tarefaRepo.findById(id);
         return obj.orElse(null);
     }
+
+    public Tarefa findByTitulo(String titulo) {
+        Optional<Tarefa> obj = tarefaRepo.findByTitulo(titulo);
+        return obj.orElse(null);
+    }
 }

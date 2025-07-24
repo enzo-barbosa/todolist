@@ -29,4 +29,10 @@ public class TarefaResource {
         Tarefa obj = this.tarefaService.findById(id);
         return ResponseEntity.ok().body(new TarefaDTO(obj));
     }
+
+    @GetMapping(value = "/titulo/{titulo}") //exemplo http://localhost:8080/tarefa/titulo/1
+    public ResponseEntity<TarefaDTO> findById(@PathVariable String titulo) {
+        Tarefa obj = this.tarefaService.findByTitulo(titulo);
+        return ResponseEntity.ok().body(new TarefaDTO(obj));
+    }
 }
