@@ -4,6 +4,7 @@ import com.project.domains.Tarefa;
 import com.project.domains.Usuario;
 import com.project.domains.dtos.TarefaDTO;
 import com.project.repositories.TarefaRepository;
+import com.project.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +27,11 @@ public class TarefaService {
 
     public Tarefa findById(Long id) {
         Optional<Tarefa> obj = tarefaRepo.findById(id);
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Tarefa não encontrada! Id: " + id));
     }
 
     public Tarefa findByTitulo(String titulo) {
         Optional<Tarefa> obj = tarefaRepo.findByTitulo(titulo);
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Tarefa não encontrada! Título: " + titulo));
     }
 }
