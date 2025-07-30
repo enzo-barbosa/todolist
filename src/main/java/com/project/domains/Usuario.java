@@ -1,5 +1,6 @@
 package com.project.domains;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.domains.dtos.UsuarioDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -40,6 +41,12 @@ public class Usuario {
         this.senha = senha;
     }
 
+    public Usuario(UsuarioDTO dto) {
+        this.nome = dto.getNome();
+        this.email = dto.getEmail();
+        this.senha = dto.getSenha();
+    }
+
     public Long getId() {
         return id;
     }
@@ -64,6 +71,12 @@ public class Usuario {
         this.email = email;
     }
 
+    @PrePersist
+    @PreUpdate
+    private void prepare() {
+        this.email = email.toLowerCase().trim();
+    }
+
     @JsonIgnore
     public String getSenha() {
         return senha;
@@ -80,6 +93,7 @@ public class Usuario {
     public void setTarefas(List<Tarefa> tarefas) {
         this.tarefas = tarefas;
     }
+
 
     @Override
     public boolean equals(Object o) {

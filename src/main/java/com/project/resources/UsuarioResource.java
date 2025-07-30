@@ -1,17 +1,15 @@
 package com.project.resources;
 
-import com.project.domains.Tarefa;
 import com.project.domains.Usuario;
-import com.project.domains.dtos.TarefaDTO;
 import com.project.domains.dtos.UsuarioDTO;
 import com.project.services.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -30,5 +28,23 @@ public class UsuarioResource {
     public ResponseEntity<UsuarioDTO> findById(@PathVariable Long id) {
         Usuario obj = this.usuarioService.findById(id);
         return ResponseEntity.ok().body(new UsuarioDTO(obj));
+    }
+
+    @GetMapping(value = "/email/{email}") //exemplo http://localhost:8080/usuario/enzo@gmail.com
+    public ResponseEntity<UsuarioDTO> findByEmail(@PathVariable String email) {
+        Usuario obj = this.usuarioService.findByEmail(email);
+        return ResponseEntity.ok().body(new UsuarioDTO(obj));
+    }
+
+    @PostMapping
+    public ResponseEntity<UsuarioDTO> create(
+            @Valid @RequestBody UsuarioDTO dto
+    ) {
+        Usuario usuario = usuarioService.create(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(usuario.getId()).toUri();
+
+        // Retorna o DTO do usuário criado no corpo da resposta
+        return ResponseEntity.created(uri).body(new UsuarioDTO(usuario));
     }
 }
