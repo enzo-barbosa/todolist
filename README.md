@@ -9,7 +9,7 @@ Projeto pessoal para praticar Spring Boot, onde estou construindo uma aplicaçã
 
 ## 🚧 Status Atual  
 - [x] Estrutura inicial do projeto  
-- [ ] Configuração do banco de dados  
+- [x] Configuração do banco de dados  
 - [ ] Implementação do CRUD  
 - [ ] Interface básica  
 
