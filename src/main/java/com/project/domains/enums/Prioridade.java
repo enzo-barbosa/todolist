@@ -1,39 +1,18 @@
 package com.project.domains.enums;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 public enum Prioridade {
-    BAIXA(1, "BAIXA"),
-    MEDIA(2, "MEDIA"),
-    ALTA(3, "ALTA");
+    BAIXA,
+    MEDIA,
+    ALTA;
 
-    private final Integer id;
-    private final String descricao;
-
-    Prioridade(Integer id, String descricao) {
-        this.id = id;
-        this.descricao = descricao;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public static Prioridade toEnum(Integer id) {
-        if (id==null) return null;
-        for (Prioridade x : Prioridade.values()) {
-            if (id.equals(x.getId())) {
-                return x;
-            }
+    // Método auxiliar para conversão segura
+    public static Prioridade fromString(String value) {
+        if (value == null) return null;
+        try {
+            return Prioridade.valueOf(value.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Prioridade inválida: " + value +
+                    ". Valores aceitos: " + java.util.Arrays.toString(Prioridade.values()));
         }
-        throw new IllegalArgumentException("Prioridade inválida:" + id +
-                ". Valores aceitos: " + Arrays.stream(values())
-                .map(v -> v.id + " (" + v.descricao + ")")
-                .collect(Collectors.joining(", ")));
     }
 }

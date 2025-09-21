@@ -6,6 +6,7 @@ import com.project.domains.dtos.TarefaDTO;
 import com.project.repositories.TarefaRepository;
 import com.project.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,9 @@ public class TarefaService {
 
     @Autowired
     private TarefaRepository tarefaRepo;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     public List<TarefaDTO> findAll() {
         // retorna uma lista de TarefaDTO
@@ -33,5 +37,23 @@ public class TarefaService {
     public Tarefa findByTitulo(String titulo) {
         Optional<Tarefa> obj = tarefaRepo.findByTitulo(titulo);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Tarefa não encontrada! Título: " + titulo));
+    }
+
+    public Tarefa create(TarefaDTO dto) {
+        dto.setId(null);
+
+        // Valida se prioridade foi informada
+        if (dto.getPrioridade() == null) {
+            throw new IllegalArgumentException("Prioridade é obrigatória");
+        }
+
+        // Busca o usuário
+        Usuario usuario = usuarioService.findById(dto.getUsuarioId());
+        if (usuario == null) {
+            throw new RuntimeException("Usuário não encontrado com ID: " + dto.getUsuarioId());
+        }
+
+        Tarefa obj = new Tarefa(dto, usuario);
+        return tarefaRepo.save(obj);
     }
 }

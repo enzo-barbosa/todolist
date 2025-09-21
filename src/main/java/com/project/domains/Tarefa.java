@@ -1,6 +1,7 @@
 package com.project.domains;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.project.domains.dtos.TarefaDTO;
 import com.project.domains.enums.Prioridade;
 import com.project.domains.enums.StatusTarefa;
 import jakarta.persistence.*;
@@ -53,6 +54,24 @@ public class Tarefa {
         this.dataCriacao = dataCriacao;
         this.prioridade = prioridade;
         this.status = status;
+    }
+
+    public Tarefa(TarefaDTO dto, Usuario usuario) {
+        this.titulo = dto.getTitulo();
+        this.descricao = dto.getDescricao();
+        this.prioridade = dto.getPrioridade();
+        this.status = dto.getStatus();
+        this.usuario = usuario;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.dataCriacao == null) {
+            this.dataCriacao = LocalDateTime.now();
+        }
+        if (this.status == null) {
+            this.status = StatusTarefa.PENDENTE;
+        }
     }
 
     public Long getId() {

@@ -47,6 +47,12 @@ public class Usuario {
         this.senha = dto.getSenha();
     }
 
+    @PrePersist
+    @PreUpdate
+    private void prepare() {
+        this.email = email.toLowerCase().trim();
+    }
+
     public Long getId() {
         return id;
     }
@@ -69,12 +75,6 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @PrePersist
-    @PreUpdate
-    private void prepare() {
-        this.email = email.toLowerCase().trim();
     }
 
     @JsonIgnore
