@@ -45,4 +45,10 @@ public class UsuarioResource {
         // Retorna o DTO do usuário criado no corpo da resposta
         return ResponseEntity.created(uri).body(new UsuarioDTO(usuario));
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @Valid @RequestBody UsuarioDTO objDto) {
+        Usuario obj = usuarioService.update(id, objDto);
+        return ResponseEntity.ok().body(new UsuarioDTO(obj));
+    }
 }

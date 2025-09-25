@@ -47,4 +47,17 @@ public class UsuarioService {
         Usuario obj = new Usuario(dto);
         return usuarioRepo.save(obj);
     }
+
+    public Usuario update(Long id, UsuarioDTO objDto) {
+        Usuario existingUsuario = findById(id);
+        if (existingUsuario == null) {
+            throw new ObjectNotFoundException("Usuário não encontrado com ID: " + id);
+        }
+
+        // Atualiza apenas os campos básicos
+        existingUsuario.setNome(objDto.getNome());
+        existingUsuario.setEmail(objDto.getEmail());
+
+        return usuarioRepo.save(existingUsuario);
+    }
 }
