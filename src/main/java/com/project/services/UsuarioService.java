@@ -1,6 +1,5 @@
 package com.project.services;
 
-import com.project.domains.Tarefa;
 import com.project.domains.Usuario;
 import com.project.domains.dtos.UsuarioDTO;
 import com.project.repositories.UsuarioRepository;
@@ -59,5 +58,22 @@ public class UsuarioService {
         existingUsuario.setEmail(objDto.getEmail());
 
         return usuarioRepo.save(existingUsuario);
+    }
+
+    public void delete(Long id) {
+        Usuario obj = findById(id);
+
+        if (obj == null) {
+            throw new ObjectNotFoundException("Usuário não encontrado com ID: " + id);
+        }
+
+        if (!obj.getTarefas().isEmpty()) {
+            throw new IllegalStateException(
+                    "Usuário não pode ser deletado pois possui " +
+                            obj.getTarefas().size() + " tarefas vinculadas!"
+            );
+        }
+
+        usuarioRepo.deleteById(id);
     }
 }

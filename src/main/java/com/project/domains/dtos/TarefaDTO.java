@@ -1,9 +1,6 @@
 package com.project.domains.dtos;
 
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.domains.Tarefa;
-import com.project.domains.Usuario;
 import com.project.domains.enums.Prioridade;
 import com.project.domains.enums.StatusTarefa;
 import jakarta.validation.constraints.NotBlank;

@@ -1,9 +1,7 @@
 package com.project.resources;
 
 import com.project.domains.Tarefa;
-import com.project.domains.Usuario;
 import com.project.domains.dtos.TarefaDTO;
-import com.project.domains.dtos.UsuarioDTO;
 import com.project.services.TarefaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +44,11 @@ public class TarefaResource {
 
         // Retorna o DTO do usuário criado no corpo da resposta
         return ResponseEntity.created(uri).body(new TarefaDTO(tarefa));
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<TarefaDTO> update(@PathVariable Long id, @Valid @RequestBody TarefaDTO objDto) {
+        Tarefa obj = tarefaService.update(id, objDto);
+        return ResponseEntity.ok().body(new TarefaDTO(obj));
     }
 }

@@ -6,7 +6,6 @@ import com.project.domains.dtos.TarefaDTO;
 import com.project.repositories.TarefaRepository;
 import com.project.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,5 +54,28 @@ public class TarefaService {
 
         Tarefa obj = new Tarefa(dto, usuario);
         return tarefaRepo.save(obj);
+    }
+
+    public Tarefa update(Long id, TarefaDTO objDto) {
+        Tarefa existingTarefa = findById(id);
+        if (existingTarefa == null) {
+            throw new ObjectNotFoundException("Tarefa não encontrada com ID: " + id);
+        }
+
+        // Atualiza campos
+        existingTarefa.setTitulo(objDto.getTitulo());
+        existingTarefa.setDescricao(objDto.getDescricao());
+        existingTarefa.setPrioridade(objDto.getPrioridade());
+        existingTarefa.setStatus(objDto.getStatus()); // ✅ ADICIONAR
+
+        // IMPORTANTE: Atualizar usuário apenas se fornecido
+        if (objDto.getUsuarioId() != null) {
+            Usuario novoUsuario = usuarioService.findById(objDto.getUsuarioId());
+            if (novoUsuario != null) {
+                existingTarefa.setUsuario(novoUsuario);
+            }
+        }
+
+        return tarefaRepo.save(existingTarefa);
     }
 }
