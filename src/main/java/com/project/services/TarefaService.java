@@ -78,4 +78,9 @@ public class TarefaService {
 
         return tarefaRepo.save(existingTarefa);
     }
+
+    public void delete(Long id) {
+        Tarefa obj = findById(id);
+        tarefaRepo.deleteById(id);
+    }
 }

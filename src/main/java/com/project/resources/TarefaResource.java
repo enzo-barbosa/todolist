@@ -51,4 +51,10 @@ public class TarefaResource {
         Tarefa obj = tarefaService.update(id, objDto);
         return ResponseEntity.ok().body(new TarefaDTO(obj));
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        tarefaService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
