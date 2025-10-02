@@ -8,14 +8,17 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+// Repository para operações de banco com a entidade Tarefa
 @Repository
 public interface TarefaRepository extends JpaRepository<Tarefa, Long> {
 
+    // Busca uma tarefa pelo título exato (case sensitive)
     Optional<Tarefa> findByTitulo(String titulo);
 
-    // NOVO: Buscar tarefas por usuário
+    // Busca todas as tarefas de um usuário específico
     List<Tarefa> findByUsuario(Usuario usuario);
 
-    // NOVO: Buscar tarefa por ID e usuário (para segurança)
+    // Busca uma tarefa específica por ID apenas se pertencer ao usuário
+    // Usado para validação de segurança
     Optional<Tarefa> findByIdAndUsuario(Long id, Usuario usuario);
 }

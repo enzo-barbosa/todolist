@@ -1,11 +1,12 @@
 package com.project.domains.enums;
 
+// Enum que define os possíveis status de uma tarefa
 public enum StatusTarefa {
     PENDENTE,
     CONCLUIDA,
     ARQUIVADA;
 
-    // Método auxiliar para conversão segura (opcional)
+    // Método auxiliar para conversão segura de string para enum
     public static StatusTarefa fromString(String value) {
         if (value == null) return null;
         try {

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
+// DTO para transferência de dados de Tarefa entre camadas
 public class TarefaDTO {
 
     private Long id;
@@ -27,65 +28,37 @@ public class TarefaDTO {
     private StatusTarefa status;
 
     @NotNull(message = "O usuario não pode ser nulo")
-    private Long usuarioId;
+    private Long usuarioId; // Referência ao ID do usuário
 
     public TarefaDTO() {
     }
 
+    // Construtor que converte entidade Tarefa para DTO
     public TarefaDTO(Tarefa tarefa) {
         this.id = tarefa.getId();
         this.titulo = tarefa.getTitulo();
         this.descricao = tarefa.getDescricao();
         this.prioridade = tarefa.getPrioridade();
         this.status = tarefa.getStatus();
-        this.usuarioId = tarefa.getUsuario().getId();
+        this.usuarioId = tarefa.getUsuario().getId(); // Extrai ID do usuário
     }
 
-    public Long getId() {
-        return id;
-    }
+    // GETTERS E SETTERS
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getTitulo() { return titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
 
-    public String getTitulo() {
-        return titulo;
-    }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+    public Prioridade getPrioridade() { return prioridade; }
+    public void setPrioridade(Prioridade prioridade) { this.prioridade = prioridade; }
 
-    public String getDescricao() {
-        return descricao;
-    }
+    public StatusTarefa getStatus() { return status; }
+    public void setStatus(StatusTarefa status) { this.status = status; }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Prioridade getPrioridade() {
-        return prioridade;
-    }
-
-    public void setPrioridade(Prioridade prioridade) {
-        this.prioridade = prioridade;
-    }
-
-    public StatusTarefa getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusTarefa status) {
-        this.status = status;
-    }
-
-    public Long getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
-    }
+    public Long getUsuarioId() { return usuarioId; }
+    public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+// Serviço responsável por popular o banco com dados iniciais
 @Service
 public class DBService {
 
@@ -23,8 +24,9 @@ public class DBService {
     private TarefaRepository tarefaRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // ✅ NOVO: Injetamos o criptografador
+    private PasswordEncoder passwordEncoder; // Codificador para senhas criptografadas
 
+    // Método transacional para inicializar o banco com dados de exemplo
     @Transactional
     public void initDB() {
         // 1. Criar usuários com senhas CRIPTOGRAFADAS
@@ -38,14 +40,15 @@ public class DBService {
                 "maria@email.com",
                 "senha456");
 
-        // ✅ AGORA: Criptografamos as senhas antes de salvar
+        // Criptografa as senhas antes de salvar no banco
         usuario01.setSenhaCriptografada("senha123", passwordEncoder);
         usuario02.setSenhaCriptografada("senha456", passwordEncoder);
 
+        // Salva usuários no banco
         usuarioRepository.save(usuario01);
         usuarioRepository.save(usuario02);
 
-        // 2. Criar tarefas (mesmo código que você já tem)
+        // 2. Criar tarefas de exemplo associadas aos usuários
         Tarefa tarefa01 = new Tarefa(
                 null,
                 "Estudar Java",
@@ -54,7 +57,7 @@ public class DBService {
                 Prioridade.ALTA,
                 StatusTarefa.PENDENTE
         );
-        tarefa01.setUsuario(usuario01);
+        tarefa01.setUsuario(usuario01); // Associa tarefa ao João
 
         Tarefa tarefa02 = new Tarefa(
                 null,
@@ -64,7 +67,7 @@ public class DBService {
                 Prioridade.MEDIA,
                 StatusTarefa.PENDENTE
         );
-        tarefa02.setUsuario(usuario01);
+        tarefa02.setUsuario(usuario01); // Associa tarefa ao João
 
         Tarefa tarefa03 = new Tarefa(
                 null,
@@ -74,7 +77,7 @@ public class DBService {
                 Prioridade.BAIXA,
                 StatusTarefa.PENDENTE
         );
-        tarefa03.setUsuario(usuario02);
+        tarefa03.setUsuario(usuario02); // Associa tarefa à Maria
 
         Tarefa tarefa04 = new Tarefa(
                 null,
@@ -84,14 +87,15 @@ public class DBService {
                 Prioridade.ALTA,
                 StatusTarefa.PENDENTE
         );
-        tarefa04.setUsuario(usuario02);
+        tarefa04.setUsuario(usuario02); // Associa tarefa à Maria
 
-        // 3. Salvar tarefas
+        // 3. Salvar tarefas no banco
         tarefaRepository.save(tarefa01);
         tarefaRepository.save(tarefa02);
         tarefaRepository.save(tarefa03);
         tarefaRepository.save(tarefa04);
 
+        // Log para confirmar criação dos dados
         System.out.println("=== BANCO INICIALIZADO COM SUCESSO ===");
         System.out.println("Usuários criados:");
         System.out.println("👉 joao@email.com / senha123");
