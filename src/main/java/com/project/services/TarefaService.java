@@ -4,6 +4,7 @@ import com.project.domains.Tarefa;
 import com.project.domains.Usuario;
 import com.project.domains.dtos.TarefaDTO;
 import com.project.repositories.TarefaRepository;
+import com.project.repositories.UsuarioRepository;
 import com.project.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,10 @@ public class TarefaService {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     public List<TarefaDTO> findAll() {
-        // retorna uma lista de TarefaDTO
         return tarefaRepo.findAll().stream()
                 .map(obj -> new TarefaDTO(obj))
                 .collect(Collectors.toList());
@@ -33,6 +36,12 @@ public class TarefaService {
         return obj.orElseThrow(() -> new ObjectNotFoundException("Tarefa não encontrada! Id: " + id));
     }
 
+    // NOVO: Buscar tarefa com segurança (verifica se pertence ao usuário)
+    public Tarefa findByIdAndUsuario(Long id, Usuario usuario) {
+        Optional<Tarefa> obj = tarefaRepo.findByIdAndUsuario(id, usuario);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Tarefa não encontrada ou acesso negado! Id: " + id));
+    }
+
     public Tarefa findByTitulo(String titulo) {
         Optional<Tarefa> obj = tarefaRepo.findByTitulo(titulo);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Tarefa não encontrada! Título: " + titulo));
@@ -41,16 +50,13 @@ public class TarefaService {
     public Tarefa create(TarefaDTO dto) {
         dto.setId(null);
 
-        // Valida se prioridade foi informada
         if (dto.getPrioridade() == null) {
             throw new IllegalArgumentException("Prioridade é obrigatória");
         }
 
-        // Busca o usuário
-        Usuario usuario = usuarioService.findById(dto.getUsuarioId());
-        if (usuario == null) {
-            throw new RuntimeException("Usuário não encontrado com ID: " + dto.getUsuarioId());
-        }
+        //  TEMPORÁRIO: Usa o João como usuário logado
+        // Depois implementamos o usuário REAL da sessão
+        Usuario usuario = usuarioService.findById(1L); // João Silva
 
         Tarefa obj = new Tarefa(dto, usuario);
         return tarefaRepo.save(obj);
@@ -62,19 +68,10 @@ public class TarefaService {
             throw new ObjectNotFoundException("Tarefa não encontrada com ID: " + id);
         }
 
-        // Atualiza campos
         existingTarefa.setTitulo(objDto.getTitulo());
         existingTarefa.setDescricao(objDto.getDescricao());
         existingTarefa.setPrioridade(objDto.getPrioridade());
-        existingTarefa.setStatus(objDto.getStatus()); // ✅ ADICIONAR
-
-        // IMPORTANTE: Atualizar usuário apenas se fornecido
-        if (objDto.getUsuarioId() != null) {
-            Usuario novoUsuario = usuarioService.findById(objDto.getUsuarioId());
-            if (novoUsuario != null) {
-                existingTarefa.setUsuario(novoUsuario);
-            }
-        }
+        existingTarefa.setStatus(objDto.getStatus());
 
         return tarefaRepo.save(existingTarefa);
     }

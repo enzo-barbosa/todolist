@@ -1,4 +1,5 @@
 package com.project.domains;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.domains.dtos.UsuarioDTO;
 import jakarta.persistence.*;
@@ -82,8 +83,19 @@ public class Usuario {
         return senha;
     }
 
+    // MANTIDO: Para quando NÃO queremos criptografar
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    // NOVO: Metodo para criptografar a senha
+    public void setSenhaCriptografada(String senha, org.springframework.security.crypto.password.PasswordEncoder passwordEncoder) {
+        this.senha = passwordEncoder.encode(senha);
+    }
+
+    // NOVO: Metodo para verificar senha
+    public boolean verificarSenha(String senhaPlain, org.springframework.security.crypto.password.PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(senhaPlain, this.senha);
     }
 
     public List<Tarefa> getTarefas() {
@@ -94,10 +106,8 @@ public class Usuario {
         this.tarefas = tarefas;
     }
 
-
     @Override
     public boolean equals(Object o) {
-        // para evitar NullPointerException(tentando acessar um metodo, campo ou propriedade de algo que não existe na memória)
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;

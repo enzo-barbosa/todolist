@@ -8,6 +8,7 @@ import com.project.repositories.TarefaRepository;
 import com.project.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,9 +22,12 @@ public class DBService {
     @Autowired
     private TarefaRepository tarefaRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder; // ✅ NOVO: Injetamos o criptografador
+
     @Transactional
     public void initDB() {
-        // 1. Criar e salvar usuários primeiro (para gerar IDs)
+        // 1. Criar usuários com senhas CRIPTOGRAFADAS
         Usuario usuario01 = new Usuario(
                 "João Silva",
                 "joao@email.com",
@@ -34,10 +38,14 @@ public class DBService {
                 "maria@email.com",
                 "senha456");
 
-        usuarioRepository.save(usuario01); // Salva para gerar ID
+        // ✅ AGORA: Criptografamos as senhas antes de salvar
+        usuario01.setSenhaCriptografada("senha123", passwordEncoder);
+        usuario02.setSenhaCriptografada("senha456", passwordEncoder);
+
+        usuarioRepository.save(usuario01);
         usuarioRepository.save(usuario02);
 
-        // 2. Criar tarefas associando aos usuários já persistidos
+        // 2. Criar tarefas (mesmo código que você já tem)
         Tarefa tarefa01 = new Tarefa(
                 null,
                 "Estudar Java",
@@ -46,8 +54,7 @@ public class DBService {
                 Prioridade.ALTA,
                 StatusTarefa.PENDENTE
         );
-
-        tarefa01.setUsuario(usuario01); // Associa ao usuário persistido
+        tarefa01.setUsuario(usuario01);
 
         Tarefa tarefa02 = new Tarefa(
                 null,
@@ -84,5 +91,11 @@ public class DBService {
         tarefaRepository.save(tarefa02);
         tarefaRepository.save(tarefa03);
         tarefaRepository.save(tarefa04);
+
+        System.out.println("=== BANCO INICIALIZADO COM SUCESSO ===");
+        System.out.println("Usuários criados:");
+        System.out.println("👉 joao@email.com / senha123");
+        System.out.println("👉 maria@email.com / senha456");
+        System.out.println("=====================================");
     }
 }
